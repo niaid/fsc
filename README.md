@@ -1,4 +1,4 @@
-## Integrating human and single-cell immune variations reveals unadjuvanted vaccine high responders are naturally adjuvanted
+## Multiscale integration of human and single-cell variations reveals unadjuvanted vaccine high responders are naturally adjuvanted
 
 ### Code to reproduce all manuscript results and figures
 
