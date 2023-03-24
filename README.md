@@ -2,9 +2,9 @@
 
 ### Code to reproduce all manuscript results and figures
 
-Read the documentation for all analysis here: https://niaid.github.io/fsc/
+Read the documentation & code to reproduce all analysis and figures here: https://niaid.github.io/fsc/
 
-Read the manuscript here: 
+Read the manuscript here: https://www.medrxiv.org/content/10.1101/2023.03.20.23287474v1
 
 
 
