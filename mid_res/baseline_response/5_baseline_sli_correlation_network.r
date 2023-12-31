@@ -47,8 +47,8 @@ go <- unlist(
            }),
   recursive = FALSE
   )
-names(combs) <- sapply(combs, function(i) paste0(i, collapse = ""))
-str(combs)
+#names(combs) <- sapply(combs, function(i) paste0(i, collapse = ""))
+#str(combs)
 
 
 # get jaccard index matrix of intercellular leading edge genes 
@@ -115,6 +115,7 @@ for (i in 1:length(jmat)) {
 # diagonal corrects to 0 
 sli = list()
 for (i in 1:length(jmat)) {
+  #i  = 1 
   stopifnot(isTRUE(all.equal(rownames(ds.cor[[i]]), rownames(jmat[[i]]))) )
   sli[[i]] = ds.cor[[i]] - jmat[[i]]
 }
@@ -123,16 +124,17 @@ for (i in 1:length(jmat)) {
 # replace the matrix values from intracellular correlations with the SLI values 
 # which are stored in sli list by celltype 
 spearmanmat = Hmisc::rcorr(ds, type = 'spearman')
-saveRDS(spearmanmat, file = paste0(datapath, 'spearmanmat.rds'))
-spearmanmat = readRDS(file = here('mid_res/baseline_response/dataV3/spearmanmat.rds'))
+#saveRDS(spearmanmat, file = paste0(datapath, 'spearmanmat.rds'))
+#spearmanmat = readRDS(file = here('mid_res/baseline_response/dataV3/spearmanmat.rds'))
 rhomat = spearmanmat$r
 mat = rhomat
 for (i in 1:length(sli)) {
-  # ged index of cols and rows 
+  #i = 1
+  # get index of cols and rows 
   row.replace = which(rownames(mat) %in% rownames(sli[[i]]))
   col.replace = which(colnames(mat) %in% colnames(sli[[i]]))
   
-  # we need to be replacing values along the square diagonal of the matrix 
+  # replace values along the square diagonal of the matrix 
   # confirm these are the same 
   stopifnot(isTRUE(all.equal(row.replace, col.replace)))
   
@@ -147,14 +149,25 @@ for (i in 1:length(sli)) {
   # replace iteratively 
   mat[row.replace,col.replace] = sli[[i]]
   
+  diag(sli[[i]])
+  diag(mat[row.replace, col.replace])
   # this should be going down with each iteration 
   print(sum(mat))
+  
+
 
 }
+
+# there are 2 celltypes with only 1 enrichment. 
+# These intracellular correlations are just the diagnoal and they were not replaced iteratively 
+# CD8 mem and CD4 naive 
+# to adjust these two corerlations = to 1 currently, set the corrected diagonal to 0. 
+diag(mat) = 0
 
 # save SLI corrected matrix 
 saveRDS(mat,file = paste0(datapath,'mat.rds'))
 mat = readRDS(file = here('mid_res/baseline_response/dataV3/mat.rds'))
+
 
 ################################
 # Part II visualization
@@ -201,6 +214,41 @@ pheatmap::pheatmap(mat,
                    fontsize_row = 5.5,
                    fontsize_col = 0.01)
 dev.off()
+
+
+####
+
+# range <- max(abs(mat))
+# cu3 = BuenColors::jdb_palette('solar_flare', type = 'continuous') %>%  as.vector
+# cu3 = cu3[seq(from = 0 , to = 1000,length.out = 20)]
+# rownames(mat) = str_replace_all(string = rownames(mat),pattern = '_',replacement = ' ')
+# pdf(file = paste0(figpath,'v2.post.clustered.SLIadjusted.cormat.baseline.pdf'),width = 8.5, height = 8)
+# pheatmap::pheatmap(mat, 
+#                    color = cu3, 
+#                    #cluster_rows = FALSE, cluster_cols = FALSE, 
+#                    border_color = NA,
+#                    treeheight_row = 10, 
+#                    treeheight_col = 20,
+#                    breaks = seq(-range, range, length.out = 20),
+#                    fontsize_row = 6,
+#                    fontsize_col = 6)
+# dev.off()
+
+### New version 
+pdf(file = paste0(figpath,'v2.post.clustered.SLIadjusted.cormat.baseline.pdf'),width = 15, height = 11)
+corrplot::corrplot(mat, method="color", col=cu3,  
+         type="upper", order="hclust", 
+         #addCoef.col = "black", # Add coefficient of correlation
+         tl.col="black", tl.srt=45, 
+         tl.cex = 0.6, #Text label color and rotation
+         # Combine with significance
+         #p.mat = p.mat, sig.level = 0.01, insig = "blank", 
+         # hide correlation coefficient on the principal diagonal
+         diag=TRUE 
+)
+dev.off()
+
+
 
 
 # R version 4.0.5 Patched (2021-03-31 r80136)
