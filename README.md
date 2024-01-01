@@ -1,5 +1,4 @@
-Multiscale integration of human and single-cell variations reveals
-unadjuvanted vaccine high responders are naturally adjuvanted
+Multilevel integration of human and single-cell variations reveals high responders to an unadjuvanted vaccine are naturally adjuvanted at baseline
 ================
 
 Documentation & code to reproduce analysis and figures here: https://niaid.github.io/fsc/
