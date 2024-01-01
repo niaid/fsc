@@ -11,7 +11,7 @@
 
 
 
-<title>Multiscale integration of human and single-cell variations reveals unadjuvanted vaccine high responders are naturally adjuvanted</title>
+<title>Multilevel integration of human and single-cell variations reveals high responders to an unadjuvanted vaccine are naturally adjuvanted at baseline</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -538,9 +538,9 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Multiscale integration of human and
-single-cell variations reveals unadjuvanted vaccine high responders are
-naturally adjuvanted</h1>
+<h1 class="title toc-ignore">Multilevel integration of human and
+single-cell variations reveals high responders to an unadjuvanted
+vaccine are naturally adjuvanted at baseline</h1>
 
 </div>
 
@@ -5734,8 +5734,8 @@ mid_res/baseline_response/5_baseline_sli_correlation_network.r</p>
 <span id="cb39-47"><a href="#cb39-47" aria-hidden="true" tabindex="-1"></a>           }),</span>
 <span id="cb39-48"><a href="#cb39-48" aria-hidden="true" tabindex="-1"></a>  <span class="at">recursive =</span> <span class="cn">FALSE</span></span>
 <span id="cb39-49"><a href="#cb39-49" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb39-50"><a href="#cb39-50" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(combs) <span class="ot">&lt;-</span> <span class="fu">sapply</span>(combs, <span class="cf">function</span>(i) <span class="fu">paste0</span>(i, <span class="at">collapse =</span> <span class="st">&quot;&quot;</span>))</span>
-<span id="cb39-51"><a href="#cb39-51" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(combs)</span>
+<span id="cb39-50"><a href="#cb39-50" aria-hidden="true" tabindex="-1"></a><span class="co">#names(combs) &lt;- sapply(combs, function(i) paste0(i, collapse = &quot;&quot;))</span></span>
+<span id="cb39-51"><a href="#cb39-51" aria-hidden="true" tabindex="-1"></a><span class="co">#str(combs)</span></span>
 <span id="cb39-52"><a href="#cb39-52" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb39-53"><a href="#cb39-53" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb39-54"><a href="#cb39-54" aria-hidden="true" tabindex="-1"></a><span class="co"># get jaccard index matrix of intercellular leading edge genes </span></span>
@@ -5802,149 +5802,197 @@ mid_res/baseline_response/5_baseline_sli_correlation_network.r</p>
 <span id="cb39-115"><a href="#cb39-115" aria-hidden="true" tabindex="-1"></a><span class="co"># diagonal corrects to 0 </span></span>
 <span id="cb39-116"><a href="#cb39-116" aria-hidden="true" tabindex="-1"></a>sli <span class="ot">=</span> <span class="fu">list</span>()</span>
 <span id="cb39-117"><a href="#cb39-117" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(jmat)) {</span>
-<span id="cb39-118"><a href="#cb39-118" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">isTRUE</span>(<span class="fu">all.equal</span>(<span class="fu">rownames</span>(ds.cor[[i]]), <span class="fu">rownames</span>(jmat[[i]]))) )</span>
-<span id="cb39-119"><a href="#cb39-119" aria-hidden="true" tabindex="-1"></a>  sli[[i]] <span class="ot">=</span> ds.cor[[i]] <span class="sc">-</span> jmat[[i]]</span>
-<span id="cb39-120"><a href="#cb39-120" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb39-121"><a href="#cb39-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-122"><a href="#cb39-122" aria-hidden="true" tabindex="-1"></a><span class="co"># now calculate the full spearman correlation matrix without subtracting jmat </span></span>
-<span id="cb39-123"><a href="#cb39-123" aria-hidden="true" tabindex="-1"></a><span class="co"># replace the matrix values from intracellular correlations with the SLI values </span></span>
-<span id="cb39-124"><a href="#cb39-124" aria-hidden="true" tabindex="-1"></a><span class="co"># which are stored in sli list by celltype </span></span>
-<span id="cb39-125"><a href="#cb39-125" aria-hidden="true" tabindex="-1"></a>spearmanmat <span class="ot">=</span> Hmisc<span class="sc">::</span><span class="fu">rcorr</span>(ds, <span class="at">type =</span> <span class="st">&#39;spearman&#39;</span>)</span>
-<span id="cb39-126"><a href="#cb39-126" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(spearmanmat, <span class="at">file =</span> <span class="fu">paste0</span>(datapath, <span class="st">&#39;spearmanmat.rds&#39;</span>))</span>
-<span id="cb39-127"><a href="#cb39-127" aria-hidden="true" tabindex="-1"></a>spearmanmat <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">&#39;mid_res/baseline_response/dataV3/spearmanmat.rds&#39;</span>))</span>
-<span id="cb39-128"><a href="#cb39-128" aria-hidden="true" tabindex="-1"></a>rhomat <span class="ot">=</span> spearmanmat<span class="sc">$</span>r</span>
-<span id="cb39-129"><a href="#cb39-129" aria-hidden="true" tabindex="-1"></a>mat <span class="ot">=</span> rhomat</span>
-<span id="cb39-130"><a href="#cb39-130" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(sli)) {</span>
-<span id="cb39-131"><a href="#cb39-131" aria-hidden="true" tabindex="-1"></a>  <span class="co"># ged index of cols and rows </span></span>
-<span id="cb39-132"><a href="#cb39-132" aria-hidden="true" tabindex="-1"></a>  row.replace <span class="ot">=</span> <span class="fu">which</span>(<span class="fu">rownames</span>(mat) <span class="sc">%in%</span> <span class="fu">rownames</span>(sli[[i]]))</span>
-<span id="cb39-133"><a href="#cb39-133" aria-hidden="true" tabindex="-1"></a>  col.replace <span class="ot">=</span> <span class="fu">which</span>(<span class="fu">colnames</span>(mat) <span class="sc">%in%</span> <span class="fu">colnames</span>(sli[[i]]))</span>
-<span id="cb39-134"><a href="#cb39-134" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb39-135"><a href="#cb39-135" aria-hidden="true" tabindex="-1"></a>  <span class="co"># we need to be replacing values along the square diagonal of the matrix </span></span>
-<span id="cb39-136"><a href="#cb39-136" aria-hidden="true" tabindex="-1"></a>  <span class="co"># confirm these are the same </span></span>
-<span id="cb39-137"><a href="#cb39-137" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">isTRUE</span>(<span class="fu">all.equal</span>(row.replace, col.replace)))</span>
-<span id="cb39-138"><a href="#cb39-138" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb39-139"><a href="#cb39-139" aria-hidden="true" tabindex="-1"></a>  <span class="co"># check structure </span></span>
-<span id="cb39-140"><a href="#cb39-140" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">isTRUE</span>(<span class="fu">all.equal</span>(</span>
-<span id="cb39-141"><a href="#cb39-141" aria-hidden="true" tabindex="-1"></a>    <span class="co"># full spearman matrix subset by rows of celltype i </span></span>
-<span id="cb39-142"><a href="#cb39-142" aria-hidden="true" tabindex="-1"></a>    mat[row.replace, col.replace],</span>
-<span id="cb39-143"><a href="#cb39-143" aria-hidden="true" tabindex="-1"></a>    <span class="co"># original spearman correlation matrix for celltype i </span></span>
-<span id="cb39-144"><a href="#cb39-144" aria-hidden="true" tabindex="-1"></a>    ds.cor[[i]]</span>
-<span id="cb39-145"><a href="#cb39-145" aria-hidden="true" tabindex="-1"></a>    )))</span>
-<span id="cb39-146"><a href="#cb39-146" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb39-147"><a href="#cb39-147" aria-hidden="true" tabindex="-1"></a>  <span class="co"># replace iteratively </span></span>
-<span id="cb39-148"><a href="#cb39-148" aria-hidden="true" tabindex="-1"></a>  mat[row.replace,col.replace] <span class="ot">=</span> sli[[i]]</span>
-<span id="cb39-149"><a href="#cb39-149" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb39-150"><a href="#cb39-150" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this should be going down with each iteration </span></span>
-<span id="cb39-151"><a href="#cb39-151" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">sum</span>(mat))</span>
-<span id="cb39-152"><a href="#cb39-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-153"><a href="#cb39-153" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb39-154"><a href="#cb39-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-155"><a href="#cb39-155" aria-hidden="true" tabindex="-1"></a><span class="co"># save SLI corrected matrix </span></span>
-<span id="cb39-156"><a href="#cb39-156" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(mat,<span class="at">file =</span> <span class="fu">paste0</span>(datapath,<span class="st">&#39;mat.rds&#39;</span>))</span>
-<span id="cb39-157"><a href="#cb39-157" aria-hidden="true" tabindex="-1"></a>mat <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">&#39;mid_res/baseline_response/dataV3/mat.rds&#39;</span>))</span>
+<span id="cb39-118"><a href="#cb39-118" aria-hidden="true" tabindex="-1"></a>  <span class="co">#i  = 1 </span></span>
+<span id="cb39-119"><a href="#cb39-119" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">isTRUE</span>(<span class="fu">all.equal</span>(<span class="fu">rownames</span>(ds.cor[[i]]), <span class="fu">rownames</span>(jmat[[i]]))) )</span>
+<span id="cb39-120"><a href="#cb39-120" aria-hidden="true" tabindex="-1"></a>  sli[[i]] <span class="ot">=</span> ds.cor[[i]] <span class="sc">-</span> jmat[[i]]</span>
+<span id="cb39-121"><a href="#cb39-121" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb39-122"><a href="#cb39-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-123"><a href="#cb39-123" aria-hidden="true" tabindex="-1"></a><span class="co"># now calculate the full spearman correlation matrix without subtracting jmat </span></span>
+<span id="cb39-124"><a href="#cb39-124" aria-hidden="true" tabindex="-1"></a><span class="co"># replace the matrix values from intracellular correlations with the SLI values </span></span>
+<span id="cb39-125"><a href="#cb39-125" aria-hidden="true" tabindex="-1"></a><span class="co"># which are stored in sli list by celltype </span></span>
+<span id="cb39-126"><a href="#cb39-126" aria-hidden="true" tabindex="-1"></a>spearmanmat <span class="ot">=</span> Hmisc<span class="sc">::</span><span class="fu">rcorr</span>(ds, <span class="at">type =</span> <span class="st">&#39;spearman&#39;</span>)</span>
+<span id="cb39-127"><a href="#cb39-127" aria-hidden="true" tabindex="-1"></a><span class="co">#saveRDS(spearmanmat, file = paste0(datapath, &#39;spearmanmat.rds&#39;))</span></span>
+<span id="cb39-128"><a href="#cb39-128" aria-hidden="true" tabindex="-1"></a><span class="co">#spearmanmat = readRDS(file = here(&#39;mid_res/baseline_response/dataV3/spearmanmat.rds&#39;))</span></span>
+<span id="cb39-129"><a href="#cb39-129" aria-hidden="true" tabindex="-1"></a>rhomat <span class="ot">=</span> spearmanmat<span class="sc">$</span>r</span>
+<span id="cb39-130"><a href="#cb39-130" aria-hidden="true" tabindex="-1"></a>mat <span class="ot">=</span> rhomat</span>
+<span id="cb39-131"><a href="#cb39-131" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(sli)) {</span>
+<span id="cb39-132"><a href="#cb39-132" aria-hidden="true" tabindex="-1"></a>  <span class="co">#i = 1</span></span>
+<span id="cb39-133"><a href="#cb39-133" aria-hidden="true" tabindex="-1"></a>  <span class="co"># get index of cols and rows </span></span>
+<span id="cb39-134"><a href="#cb39-134" aria-hidden="true" tabindex="-1"></a>  row.replace <span class="ot">=</span> <span class="fu">which</span>(<span class="fu">rownames</span>(mat) <span class="sc">%in%</span> <span class="fu">rownames</span>(sli[[i]]))</span>
+<span id="cb39-135"><a href="#cb39-135" aria-hidden="true" tabindex="-1"></a>  col.replace <span class="ot">=</span> <span class="fu">which</span>(<span class="fu">colnames</span>(mat) <span class="sc">%in%</span> <span class="fu">colnames</span>(sli[[i]]))</span>
+<span id="cb39-136"><a href="#cb39-136" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb39-137"><a href="#cb39-137" aria-hidden="true" tabindex="-1"></a>  <span class="co"># replace values along the square diagonal of the matrix </span></span>
+<span id="cb39-138"><a href="#cb39-138" aria-hidden="true" tabindex="-1"></a>  <span class="co"># confirm these are the same </span></span>
+<span id="cb39-139"><a href="#cb39-139" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">isTRUE</span>(<span class="fu">all.equal</span>(row.replace, col.replace)))</span>
+<span id="cb39-140"><a href="#cb39-140" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb39-141"><a href="#cb39-141" aria-hidden="true" tabindex="-1"></a>  <span class="co"># check structure </span></span>
+<span id="cb39-142"><a href="#cb39-142" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">isTRUE</span>(<span class="fu">all.equal</span>(</span>
+<span id="cb39-143"><a href="#cb39-143" aria-hidden="true" tabindex="-1"></a>    <span class="co"># full spearman matrix subset by rows of celltype i </span></span>
+<span id="cb39-144"><a href="#cb39-144" aria-hidden="true" tabindex="-1"></a>    mat[row.replace, col.replace],</span>
+<span id="cb39-145"><a href="#cb39-145" aria-hidden="true" tabindex="-1"></a>    <span class="co"># original spearman correlation matrix for celltype i </span></span>
+<span id="cb39-146"><a href="#cb39-146" aria-hidden="true" tabindex="-1"></a>    ds.cor[[i]]</span>
+<span id="cb39-147"><a href="#cb39-147" aria-hidden="true" tabindex="-1"></a>    )))</span>
+<span id="cb39-148"><a href="#cb39-148" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb39-149"><a href="#cb39-149" aria-hidden="true" tabindex="-1"></a>  <span class="co"># replace iteratively </span></span>
+<span id="cb39-150"><a href="#cb39-150" aria-hidden="true" tabindex="-1"></a>  mat[row.replace,col.replace] <span class="ot">=</span> sli[[i]]</span>
+<span id="cb39-151"><a href="#cb39-151" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb39-152"><a href="#cb39-152" aria-hidden="true" tabindex="-1"></a>  <span class="fu">diag</span>(sli[[i]])</span>
+<span id="cb39-153"><a href="#cb39-153" aria-hidden="true" tabindex="-1"></a>  <span class="fu">diag</span>(mat[row.replace, col.replace])</span>
+<span id="cb39-154"><a href="#cb39-154" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this should be going down with each iteration </span></span>
+<span id="cb39-155"><a href="#cb39-155" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">sum</span>(mat))</span>
+<span id="cb39-156"><a href="#cb39-156" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb39-157"><a href="#cb39-157" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb39-158"><a href="#cb39-158" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-159"><a href="#cb39-159" aria-hidden="true" tabindex="-1"></a><span class="do">################################</span></span>
-<span id="cb39-160"><a href="#cb39-160" aria-hidden="true" tabindex="-1"></a><span class="co"># Part II visualization</span></span>
-<span id="cb39-161"><a href="#cb39-161" aria-hidden="true" tabindex="-1"></a><span class="do">################################</span></span>
-<span id="cb39-162"><a href="#cb39-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-163"><a href="#cb39-163" aria-hidden="true" tabindex="-1"></a><span class="co"># plot pre and post adjustment correlation map </span></span>
-<span id="cb39-164"><a href="#cb39-164" aria-hidden="true" tabindex="-1"></a><span class="co"># spearmancorrelation coefficient rhomat</span></span>
-<span id="cb39-165"><a href="#cb39-165" aria-hidden="true" tabindex="-1"></a>cu <span class="ot">=</span> <span class="fu">colorRampPalette</span>(<span class="fu">rev</span>(RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="at">n =</span> <span class="dv">7</span>, <span class="at">name =</span> <span class="st">&quot;RdYlBu&quot;</span>)))(<span class="dv">11</span>)</span>
-<span id="cb39-166"><a href="#cb39-166" aria-hidden="true" tabindex="-1"></a>range <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">abs</span>(rhomat))</span>
-<span id="cb39-167"><a href="#cb39-167" aria-hidden="true" tabindex="-1"></a><span class="co"># without clustering</span></span>
-<span id="cb39-168"><a href="#cb39-168" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
-<span id="cb39-169"><a href="#cb39-169" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="at">file =</span> <span class="fu">paste0</span>(figpath,<span class="st">&#39;preadjusted.cormat.baseline.pdf&#39;</span>),<span class="at">width =</span> <span class="dv">6</span>, <span class="at">height =</span> <span class="dv">5</span>)</span>
-<span id="cb39-170"><a href="#cb39-170" aria-hidden="true" tabindex="-1"></a>pheatmap<span class="sc">::</span><span class="fu">pheatmap</span>(rhomat, <span class="at">color =</span> cu, </span>
-<span id="cb39-171"><a href="#cb39-171" aria-hidden="true" tabindex="-1"></a>                   <span class="at">cluster_rows =</span> <span class="cn">FALSE</span>, <span class="at">cluster_cols =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb39-172"><a href="#cb39-172" aria-hidden="true" tabindex="-1"></a>                   <span class="at">border_color =</span> <span class="cn">NA</span>,</span>
-<span id="cb39-173"><a href="#cb39-173" aria-hidden="true" tabindex="-1"></a>                   <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span>range, range, <span class="at">length.out =</span> <span class="dv">11</span>),</span>
-<span id="cb39-174"><a href="#cb39-174" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fontsize_row =</span> <span class="dv">5</span>, <span class="at">fontsize_col =</span> <span class="fl">0.01</span>)</span>
-<span id="cb39-175"><a href="#cb39-175" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
-<span id="cb39-176"><a href="#cb39-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-177"><a href="#cb39-177" aria-hidden="true" tabindex="-1"></a><span class="co"># plot sli corrected matrix </span></span>
-<span id="cb39-178"><a href="#cb39-178" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="at">file =</span> <span class="fu">paste0</span>(figpath,<span class="st">&#39;post.SLIadjusted.cormat.baseline.pdf&#39;</span>),<span class="at">width =</span> <span class="dv">6</span>, <span class="at">height =</span> <span class="dv">5</span>)</span>
-<span id="cb39-179"><a href="#cb39-179" aria-hidden="true" tabindex="-1"></a>pheatmap<span class="sc">::</span><span class="fu">pheatmap</span>(mat, <span class="at">color =</span> cu, </span>
-<span id="cb39-180"><a href="#cb39-180" aria-hidden="true" tabindex="-1"></a>                   <span class="at">cluster_rows =</span> <span class="cn">FALSE</span>, <span class="at">cluster_cols =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb39-181"><a href="#cb39-181" aria-hidden="true" tabindex="-1"></a>                   <span class="at">border_color =</span> <span class="cn">NA</span>,</span>
-<span id="cb39-182"><a href="#cb39-182" aria-hidden="true" tabindex="-1"></a>                   <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span>range, range, <span class="at">length.out =</span> <span class="dv">11</span>),</span>
-<span id="cb39-183"><a href="#cb39-183" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fontsize_row =</span> <span class="dv">5</span>, <span class="at">fontsize_col =</span> <span class="fl">0.01</span>)</span>
-<span id="cb39-184"><a href="#cb39-184" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
-<span id="cb39-185"><a href="#cb39-185" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-186"><a href="#cb39-186" aria-hidden="true" tabindex="-1"></a><span class="co"># figure  -- full network visualization as matrix (non pruned)</span></span>
-<span id="cb39-187"><a href="#cb39-187" aria-hidden="true" tabindex="-1"></a><span class="co"># cluster the square matrix </span></span>
-<span id="cb39-188"><a href="#cb39-188" aria-hidden="true" tabindex="-1"></a><span class="co">#diag(mat)[diag(mat) &gt; 0] = 0 </span></span>
-<span id="cb39-189"><a href="#cb39-189" aria-hidden="true" tabindex="-1"></a>range <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">abs</span>(mat))</span>
-<span id="cb39-190"><a href="#cb39-190" aria-hidden="true" tabindex="-1"></a>cu3 <span class="ot">=</span> BuenColors<span class="sc">::</span><span class="fu">jdb_palette</span>(<span class="st">&#39;solar_flare&#39;</span>, <span class="at">type =</span> <span class="st">&#39;continuous&#39;</span>) <span class="sc">%&gt;%</span>  as.vector</span>
-<span id="cb39-191"><a href="#cb39-191" aria-hidden="true" tabindex="-1"></a>cu3 <span class="ot">=</span> cu3[<span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span> , <span class="at">to =</span> <span class="dv">1000</span>,<span class="at">length.out =</span> <span class="dv">20</span>)]</span>
-<span id="cb39-192"><a href="#cb39-192" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(mat) <span class="ot">=</span> <span class="fu">str_replace_all</span>(<span class="at">string =</span> <span class="fu">rownames</span>(mat),<span class="at">pattern =</span> <span class="st">&#39;_&#39;</span>,<span class="at">replacement =</span> <span class="st">&#39; &#39;</span>)</span>
-<span id="cb39-193"><a href="#cb39-193" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="at">file =</span> <span class="fu">paste0</span>(figpath,<span class="st">&#39;post.clustered.SLIadjusted.cormat.baseline.pdf&#39;</span>),<span class="at">width =</span> <span class="dv">8</span>, <span class="at">height =</span> <span class="fl">6.5</span>)</span>
-<span id="cb39-194"><a href="#cb39-194" aria-hidden="true" tabindex="-1"></a>pheatmap<span class="sc">::</span><span class="fu">pheatmap</span>(mat, </span>
-<span id="cb39-195"><a href="#cb39-195" aria-hidden="true" tabindex="-1"></a>                   <span class="at">color =</span> cu3, </span>
-<span id="cb39-196"><a href="#cb39-196" aria-hidden="true" tabindex="-1"></a>                   <span class="co">#cluster_rows = FALSE, cluster_cols = FALSE, </span></span>
-<span id="cb39-197"><a href="#cb39-197" aria-hidden="true" tabindex="-1"></a>                   <span class="at">border_color =</span> <span class="cn">NA</span>,</span>
-<span id="cb39-198"><a href="#cb39-198" aria-hidden="true" tabindex="-1"></a>                   <span class="at">treeheight_row =</span> <span class="dv">10</span>, </span>
-<span id="cb39-199"><a href="#cb39-199" aria-hidden="true" tabindex="-1"></a>                   <span class="at">treeheight_col =</span> <span class="dv">20</span>,</span>
-<span id="cb39-200"><a href="#cb39-200" aria-hidden="true" tabindex="-1"></a>                   <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span>range, range, <span class="at">length.out =</span> <span class="dv">20</span>),</span>
-<span id="cb39-201"><a href="#cb39-201" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fontsize_row =</span> <span class="fl">5.5</span>,</span>
-<span id="cb39-202"><a href="#cb39-202" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fontsize_col =</span> <span class="fl">0.01</span>)</span>
-<span id="cb39-203"><a href="#cb39-203" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
-<span id="cb39-204"><a href="#cb39-204" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-205"><a href="#cb39-205" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-206"><a href="#cb39-206" aria-hidden="true" tabindex="-1"></a><span class="co"># R version 4.0.5 Patched (2021-03-31 r80136)</span></span>
-<span id="cb39-207"><a href="#cb39-207" aria-hidden="true" tabindex="-1"></a><span class="co"># attached base packages:</span></span>
-<span id="cb39-208"><a href="#cb39-208" aria-hidden="true" tabindex="-1"></a><span class="co">#   [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
-<span id="cb39-209"><a href="#cb39-209" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb39-210"><a href="#cb39-210" aria-hidden="true" tabindex="-1"></a><span class="co"># other attached packages:</span></span>
-<span id="cb39-211"><a href="#cb39-211" aria-hidden="true" tabindex="-1"></a><span class="co">#   [1] scglmmr_0.1.0   magrittr_2.0.1  here_1.0.1      forcats_0.5.1   stringr_1.4.0   dplyr_1.0.4     purrr_0.3.4    </span></span>
-<span id="cb39-212"><a href="#cb39-212" aria-hidden="true" tabindex="-1"></a><span class="co"># [8] readr_1.4.0     tidyr_1.1.2     tibble_3.0.6    ggplot2_3.3.3   tidyverse_1.3.0</span></span>
-<span id="cb39-213"><a href="#cb39-213" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb39-214"><a href="#cb39-214" aria-hidden="true" tabindex="-1"></a><span class="co"># loaded via a namespace (and not attached):</span></span>
-<span id="cb39-215"><a href="#cb39-215" aria-hidden="true" tabindex="-1"></a><span class="co">#   [1] lme4_1.1-26                 tidyselect_1.1.0            RSQLite_2.2.7               AnnotationDbi_1.52.0       </span></span>
-<span id="cb39-216"><a href="#cb39-216" aria-hidden="true" tabindex="-1"></a><span class="co"># [5] htmlwidgets_1.5.3           grid_4.0.5                  BiocParallel_1.24.1         scatterpie_0.1.7           </span></span>
-<span id="cb39-217"><a href="#cb39-217" aria-hidden="true" tabindex="-1"></a><span class="co"># [9] munsell_0.5.0               codetools_0.2-18            statmod_1.4.35              withr_2.4.3                </span></span>
-<span id="cb39-218"><a href="#cb39-218" aria-hidden="true" tabindex="-1"></a><span class="co"># [13] colorspace_2.0-0            GOSemSim_2.16.1             Biobase_2.50.0              knitr_1.39                 </span></span>
-<span id="cb39-219"><a href="#cb39-219" aria-hidden="true" tabindex="-1"></a><span class="co"># [17] rstudioapi_0.13             stats4_4.0.5                ggsignif_0.6.0              DOSE_3.16.0                </span></span>
-<span id="cb39-220"><a href="#cb39-220" aria-hidden="true" tabindex="-1"></a><span class="co"># [21] Rdpack_2.1.1                MatrixGenerics_1.2.1        emmeans_1.5.4               GenomeInfoDbData_1.2.4     </span></span>
-<span id="cb39-221"><a href="#cb39-221" aria-hidden="true" tabindex="-1"></a><span class="co"># [25] polyclip_1.10-0             bit64_4.0.5                 farver_2.0.3                pheatmap_1.0.12            </span></span>
-<span id="cb39-222"><a href="#cb39-222" aria-hidden="true" tabindex="-1"></a><span class="co"># [29] rprojroot_2.0.2             downloader_0.4              coda_0.19-4                 vctrs_0.4.1                </span></span>
-<span id="cb39-223"><a href="#cb39-223" aria-hidden="true" tabindex="-1"></a><span class="co"># [33] generics_0.1.2              TH.data_1.0-10              xfun_0.30                   doParallel_1.0.16          </span></span>
-<span id="cb39-224"><a href="#cb39-224" aria-hidden="true" tabindex="-1"></a><span class="co"># [37] R6_2.5.0                    GenomeInfoDb_1.26.7         graphlayouts_0.7.2          locfit_1.5-9.4             </span></span>
-<span id="cb39-225"><a href="#cb39-225" aria-hidden="true" tabindex="-1"></a><span class="co"># [41] pals_1.7                    bitops_1.0-6                cachem_1.0.4                fgsea_1.16.0               </span></span>
-<span id="cb39-226"><a href="#cb39-226" aria-hidden="true" tabindex="-1"></a><span class="co"># [45] DelayedArray_0.16.3         assertthat_0.2.1            scales_1.1.1                multcomp_1.4-16            </span></span>
-<span id="cb39-227"><a href="#cb39-227" aria-hidden="true" tabindex="-1"></a><span class="co"># [49] ggraph_2.0.5                nnet_7.3-15                 enrichplot_1.10.2           gtable_0.3.0               </span></span>
-<span id="cb39-228"><a href="#cb39-228" aria-hidden="true" tabindex="-1"></a><span class="co"># [53] egg_0.4.5                   tidygraph_1.2.0             sandwich_3.0-0              rlang_1.0.2                </span></span>
-<span id="cb39-229"><a href="#cb39-229" aria-hidden="true" tabindex="-1"></a><span class="co"># [57] slanter_0.2-0               splines_4.0.5               rstatix_0.7.0               dichromat_2.0-0            </span></span>
-<span id="cb39-230"><a href="#cb39-230" aria-hidden="true" tabindex="-1"></a><span class="co"># [61] broom_0.7.5                 checkmate_2.0.0             BiocManager_1.30.10         reshape2_1.4.4             </span></span>
-<span id="cb39-231"><a href="#cb39-231" aria-hidden="true" tabindex="-1"></a><span class="co"># [65] abind_1.4-5                 modelr_0.1.8                backports_1.2.1             qvalue_2.22.0              </span></span>
-<span id="cb39-232"><a href="#cb39-232" aria-hidden="true" tabindex="-1"></a><span class="co"># [69] Hmisc_4.5-0                 clusterProfiler_3.18.1      tools_4.0.5                 ellipsis_0.3.2             </span></span>
-<span id="cb39-233"><a href="#cb39-233" aria-hidden="true" tabindex="-1"></a><span class="co"># [73] gplots_3.1.1                RColorBrewer_1.1-2          BiocGenerics_0.36.1         Rcpp_1.0.6                 </span></span>
-<span id="cb39-234"><a href="#cb39-234" aria-hidden="true" tabindex="-1"></a><span class="co"># [77] plyr_1.8.6                  progress_1.2.2              base64enc_0.1-3             zlibbioc_1.36.0            </span></span>
-<span id="cb39-235"><a href="#cb39-235" aria-hidden="true" tabindex="-1"></a><span class="co"># [81] RCurl_1.98-1.3              prettyunits_1.1.1           ggpubr_0.4.0                rpart_4.1-15               </span></span>
-<span id="cb39-236"><a href="#cb39-236" aria-hidden="true" tabindex="-1"></a><span class="co"># [85] viridis_0.5.1               cowplot_1.1.1               S4Vectors_0.28.1            zoo_1.8-8                  </span></span>
-<span id="cb39-237"><a href="#cb39-237" aria-hidden="true" tabindex="-1"></a><span class="co"># [89] SummarizedExperiment_1.20.0 haven_2.3.1                 ggrepel_0.9.1               cluster_2.1.2              </span></span>
-<span id="cb39-238"><a href="#cb39-238" aria-hidden="true" tabindex="-1"></a><span class="co"># [93] fs_1.5.0                    variancePartition_1.25.6    data.table_1.14.0           DO.db_2.9                  </span></span>
-<span id="cb39-239"><a href="#cb39-239" aria-hidden="true" tabindex="-1"></a><span class="co"># [97] openxlsx_4.2.3              reprex_1.0.0                mvtnorm_1.1-1               packrat_0.7.0              </span></span>
-<span id="cb39-240"><a href="#cb39-240" aria-hidden="true" tabindex="-1"></a><span class="co"># [101] matrixStats_0.58.0          hms_1.0.0                   GSVA_1.38.2                 xtable_1.8-4               </span></span>
-<span id="cb39-241"><a href="#cb39-241" aria-hidden="true" tabindex="-1"></a><span class="co"># [105] pbkrtest_0.5-0.1            RhpcBLASctl_0.21-247.1      XML_3.99-0.6                rio_0.5.16                 </span></span>
-<span id="cb39-242"><a href="#cb39-242" aria-hidden="true" tabindex="-1"></a><span class="co"># [109] jpeg_0.1-8.1                BuenColors_0.5.6            readxl_1.3.1                IRanges_2.24.1             </span></span>
-<span id="cb39-243"><a href="#cb39-243" aria-hidden="true" tabindex="-1"></a><span class="co"># [113] gridExtra_2.3               compiler_4.0.5              maps_3.4.0                  KernSmooth_2.23-18         </span></span>
-<span id="cb39-244"><a href="#cb39-244" aria-hidden="true" tabindex="-1"></a><span class="co"># [117] crayon_1.4.1                shadowtext_0.0.9            minqa_1.2.4                 htmltools_0.5.2            </span></span>
-<span id="cb39-245"><a href="#cb39-245" aria-hidden="true" tabindex="-1"></a><span class="co"># [121] ggfun_0.0.4                 Formula_1.2-4               lubridate_1.7.9.2           DBI_1.1.1                  </span></span>
-<span id="cb39-246"><a href="#cb39-246" aria-hidden="true" tabindex="-1"></a><span class="co"># [125] tweenr_1.0.2                dbplyr_2.1.0                MASS_7.3-53.1               boot_1.3-27                </span></span>
-<span id="cb39-247"><a href="#cb39-247" aria-hidden="true" tabindex="-1"></a><span class="co"># [129] Matrix_1.3-2                car_3.0-10                  cli_3.3.0                   rbibutils_2.0              </span></span>
-<span id="cb39-248"><a href="#cb39-248" aria-hidden="true" tabindex="-1"></a><span class="co"># [133] parallel_4.0.5              igraph_1.2.6                GenomicRanges_1.42.0        pkgconfig_2.0.3            </span></span>
-<span id="cb39-249"><a href="#cb39-249" aria-hidden="true" tabindex="-1"></a><span class="co"># [137] rvcheck_0.1.8               foreign_0.8-81              foreach_1.5.1               xml2_1.3.2                 </span></span>
-<span id="cb39-250"><a href="#cb39-250" aria-hidden="true" tabindex="-1"></a><span class="co"># [141] annotate_1.68.0             XVector_0.30.0              GeneOverlap_1.26.0          estimability_1.3           </span></span>
-<span id="cb39-251"><a href="#cb39-251" aria-hidden="true" tabindex="-1"></a><span class="co"># [145] rvest_0.3.6                 digest_0.6.27               graph_1.68.0                cellranger_1.1.0           </span></span>
-<span id="cb39-252"><a href="#cb39-252" aria-hidden="true" tabindex="-1"></a><span class="co"># [149] fastmatch_1.1-0             htmlTable_2.1.0             edgeR_3.32.1                GSEABase_1.52.1            </span></span>
-<span id="cb39-253"><a href="#cb39-253" aria-hidden="true" tabindex="-1"></a><span class="co"># [153] curl_4.3                    gtools_3.8.2                nloptr_1.2.2.2              nlme_3.1-152               </span></span>
-<span id="cb39-254"><a href="#cb39-254" aria-hidden="true" tabindex="-1"></a><span class="co"># [157] lifecycle_1.0.0             jsonlite_1.7.2              aod_1.3.1                   carData_3.0-4              </span></span>
-<span id="cb39-255"><a href="#cb39-255" aria-hidden="true" tabindex="-1"></a><span class="co"># [161] mapproj_1.2.8               viridisLite_0.3.0           limma_3.46.0                pillar_1.4.7               </span></span>
-<span id="cb39-256"><a href="#cb39-256" aria-hidden="true" tabindex="-1"></a><span class="co"># [165] lattice_0.20-41             fastmap_1.1.0               httr_1.4.2                  survival_3.2-10            </span></span>
-<span id="cb39-257"><a href="#cb39-257" aria-hidden="true" tabindex="-1"></a><span class="co"># [169] GO.db_3.12.1                glue_1.6.2                  zip_2.1.1                   iterators_1.0.13           </span></span>
-<span id="cb39-258"><a href="#cb39-258" aria-hidden="true" tabindex="-1"></a><span class="co"># [173] png_0.1-7                   bit_4.0.4                   ggforce_0.3.3               stringi_1.5.3              </span></span>
-<span id="cb39-259"><a href="#cb39-259" aria-hidden="true" tabindex="-1"></a><span class="co"># [177] blob_1.2.1                  org.Hs.eg.db_3.12.0         latticeExtra_0.6-29         caTools_1.18.1             </span></span>
-<span id="cb39-260"><a href="#cb39-260" aria-hidden="true" tabindex="-1"></a><span class="co"># [181] memoise_2.0.0 </span></span></code></pre></div>
+<span id="cb39-159"><a href="#cb39-159" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb39-160"><a href="#cb39-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-161"><a href="#cb39-161" aria-hidden="true" tabindex="-1"></a><span class="co"># there are 2 celltypes with only 1 enrichment. </span></span>
+<span id="cb39-162"><a href="#cb39-162" aria-hidden="true" tabindex="-1"></a><span class="co"># These intracellular correlations are just the diagnoal and they were not replaced iteratively </span></span>
+<span id="cb39-163"><a href="#cb39-163" aria-hidden="true" tabindex="-1"></a><span class="co"># CD8 mem and CD4 naive </span></span>
+<span id="cb39-164"><a href="#cb39-164" aria-hidden="true" tabindex="-1"></a><span class="co"># to adjust these two corerlations = to 1 currently, set the corrected diagonal to 0. </span></span>
+<span id="cb39-165"><a href="#cb39-165" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(mat) <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb39-166"><a href="#cb39-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-167"><a href="#cb39-167" aria-hidden="true" tabindex="-1"></a><span class="co"># save SLI corrected matrix </span></span>
+<span id="cb39-168"><a href="#cb39-168" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(mat,<span class="at">file =</span> <span class="fu">paste0</span>(datapath,<span class="st">&#39;mat.rds&#39;</span>))</span>
+<span id="cb39-169"><a href="#cb39-169" aria-hidden="true" tabindex="-1"></a>mat <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">&#39;mid_res/baseline_response/dataV3/mat.rds&#39;</span>))</span>
+<span id="cb39-170"><a href="#cb39-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-171"><a href="#cb39-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-172"><a href="#cb39-172" aria-hidden="true" tabindex="-1"></a><span class="do">################################</span></span>
+<span id="cb39-173"><a href="#cb39-173" aria-hidden="true" tabindex="-1"></a><span class="co"># Part II visualization</span></span>
+<span id="cb39-174"><a href="#cb39-174" aria-hidden="true" tabindex="-1"></a><span class="do">################################</span></span>
+<span id="cb39-175"><a href="#cb39-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-176"><a href="#cb39-176" aria-hidden="true" tabindex="-1"></a><span class="co"># plot pre and post adjustment correlation map </span></span>
+<span id="cb39-177"><a href="#cb39-177" aria-hidden="true" tabindex="-1"></a><span class="co"># spearmancorrelation coefficient rhomat</span></span>
+<span id="cb39-178"><a href="#cb39-178" aria-hidden="true" tabindex="-1"></a>cu <span class="ot">=</span> <span class="fu">colorRampPalette</span>(<span class="fu">rev</span>(RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="at">n =</span> <span class="dv">7</span>, <span class="at">name =</span> <span class="st">&quot;RdYlBu&quot;</span>)))(<span class="dv">11</span>)</span>
+<span id="cb39-179"><a href="#cb39-179" aria-hidden="true" tabindex="-1"></a>range <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">abs</span>(rhomat))</span>
+<span id="cb39-180"><a href="#cb39-180" aria-hidden="true" tabindex="-1"></a><span class="co"># without clustering</span></span>
+<span id="cb39-181"><a href="#cb39-181" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
+<span id="cb39-182"><a href="#cb39-182" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="at">file =</span> <span class="fu">paste0</span>(figpath,<span class="st">&#39;preadjusted.cormat.baseline.pdf&#39;</span>),<span class="at">width =</span> <span class="dv">6</span>, <span class="at">height =</span> <span class="dv">5</span>)</span>
+<span id="cb39-183"><a href="#cb39-183" aria-hidden="true" tabindex="-1"></a>pheatmap<span class="sc">::</span><span class="fu">pheatmap</span>(rhomat, <span class="at">color =</span> cu, </span>
+<span id="cb39-184"><a href="#cb39-184" aria-hidden="true" tabindex="-1"></a>                   <span class="at">cluster_rows =</span> <span class="cn">FALSE</span>, <span class="at">cluster_cols =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb39-185"><a href="#cb39-185" aria-hidden="true" tabindex="-1"></a>                   <span class="at">border_color =</span> <span class="cn">NA</span>,</span>
+<span id="cb39-186"><a href="#cb39-186" aria-hidden="true" tabindex="-1"></a>                   <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span>range, range, <span class="at">length.out =</span> <span class="dv">11</span>),</span>
+<span id="cb39-187"><a href="#cb39-187" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fontsize_row =</span> <span class="dv">5</span>, <span class="at">fontsize_col =</span> <span class="fl">0.01</span>)</span>
+<span id="cb39-188"><a href="#cb39-188" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
+<span id="cb39-189"><a href="#cb39-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-190"><a href="#cb39-190" aria-hidden="true" tabindex="-1"></a><span class="co"># plot sli corrected matrix </span></span>
+<span id="cb39-191"><a href="#cb39-191" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="at">file =</span> <span class="fu">paste0</span>(figpath,<span class="st">&#39;post.SLIadjusted.cormat.baseline.pdf&#39;</span>),<span class="at">width =</span> <span class="dv">6</span>, <span class="at">height =</span> <span class="dv">5</span>)</span>
+<span id="cb39-192"><a href="#cb39-192" aria-hidden="true" tabindex="-1"></a>pheatmap<span class="sc">::</span><span class="fu">pheatmap</span>(mat, <span class="at">color =</span> cu, </span>
+<span id="cb39-193"><a href="#cb39-193" aria-hidden="true" tabindex="-1"></a>                   <span class="at">cluster_rows =</span> <span class="cn">FALSE</span>, <span class="at">cluster_cols =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb39-194"><a href="#cb39-194" aria-hidden="true" tabindex="-1"></a>                   <span class="at">border_color =</span> <span class="cn">NA</span>,</span>
+<span id="cb39-195"><a href="#cb39-195" aria-hidden="true" tabindex="-1"></a>                   <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span>range, range, <span class="at">length.out =</span> <span class="dv">11</span>),</span>
+<span id="cb39-196"><a href="#cb39-196" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fontsize_row =</span> <span class="dv">5</span>, <span class="at">fontsize_col =</span> <span class="fl">0.01</span>)</span>
+<span id="cb39-197"><a href="#cb39-197" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
+<span id="cb39-198"><a href="#cb39-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-199"><a href="#cb39-199" aria-hidden="true" tabindex="-1"></a><span class="co"># figure  -- full network visualization as matrix (non pruned)</span></span>
+<span id="cb39-200"><a href="#cb39-200" aria-hidden="true" tabindex="-1"></a><span class="co"># cluster the square matrix </span></span>
+<span id="cb39-201"><a href="#cb39-201" aria-hidden="true" tabindex="-1"></a><span class="co">#diag(mat)[diag(mat) &gt; 0] = 0 </span></span>
+<span id="cb39-202"><a href="#cb39-202" aria-hidden="true" tabindex="-1"></a>range <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">abs</span>(mat))</span>
+<span id="cb39-203"><a href="#cb39-203" aria-hidden="true" tabindex="-1"></a>cu3 <span class="ot">=</span> BuenColors<span class="sc">::</span><span class="fu">jdb_palette</span>(<span class="st">&#39;solar_flare&#39;</span>, <span class="at">type =</span> <span class="st">&#39;continuous&#39;</span>) <span class="sc">%&gt;%</span>  as.vector</span>
+<span id="cb39-204"><a href="#cb39-204" aria-hidden="true" tabindex="-1"></a>cu3 <span class="ot">=</span> cu3[<span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span> , <span class="at">to =</span> <span class="dv">1000</span>,<span class="at">length.out =</span> <span class="dv">20</span>)]</span>
+<span id="cb39-205"><a href="#cb39-205" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(mat) <span class="ot">=</span> <span class="fu">str_replace_all</span>(<span class="at">string =</span> <span class="fu">rownames</span>(mat),<span class="at">pattern =</span> <span class="st">&#39;_&#39;</span>,<span class="at">replacement =</span> <span class="st">&#39; &#39;</span>)</span>
+<span id="cb39-206"><a href="#cb39-206" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="at">file =</span> <span class="fu">paste0</span>(figpath,<span class="st">&#39;post.clustered.SLIadjusted.cormat.baseline.pdf&#39;</span>),<span class="at">width =</span> <span class="dv">8</span>, <span class="at">height =</span> <span class="fl">6.5</span>)</span>
+<span id="cb39-207"><a href="#cb39-207" aria-hidden="true" tabindex="-1"></a>pheatmap<span class="sc">::</span><span class="fu">pheatmap</span>(mat, </span>
+<span id="cb39-208"><a href="#cb39-208" aria-hidden="true" tabindex="-1"></a>                   <span class="at">color =</span> cu3, </span>
+<span id="cb39-209"><a href="#cb39-209" aria-hidden="true" tabindex="-1"></a>                   <span class="co">#cluster_rows = FALSE, cluster_cols = FALSE, </span></span>
+<span id="cb39-210"><a href="#cb39-210" aria-hidden="true" tabindex="-1"></a>                   <span class="at">border_color =</span> <span class="cn">NA</span>,</span>
+<span id="cb39-211"><a href="#cb39-211" aria-hidden="true" tabindex="-1"></a>                   <span class="at">treeheight_row =</span> <span class="dv">10</span>, </span>
+<span id="cb39-212"><a href="#cb39-212" aria-hidden="true" tabindex="-1"></a>                   <span class="at">treeheight_col =</span> <span class="dv">20</span>,</span>
+<span id="cb39-213"><a href="#cb39-213" aria-hidden="true" tabindex="-1"></a>                   <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="sc">-</span>range, range, <span class="at">length.out =</span> <span class="dv">20</span>),</span>
+<span id="cb39-214"><a href="#cb39-214" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fontsize_row =</span> <span class="fl">5.5</span>,</span>
+<span id="cb39-215"><a href="#cb39-215" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fontsize_col =</span> <span class="fl">0.01</span>)</span>
+<span id="cb39-216"><a href="#cb39-216" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
+<span id="cb39-217"><a href="#cb39-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-218"><a href="#cb39-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-219"><a href="#cb39-219" aria-hidden="true" tabindex="-1"></a><span class="do">####</span></span>
+<span id="cb39-220"><a href="#cb39-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-221"><a href="#cb39-221" aria-hidden="true" tabindex="-1"></a><span class="co"># range &lt;- max(abs(mat))</span></span>
+<span id="cb39-222"><a href="#cb39-222" aria-hidden="true" tabindex="-1"></a><span class="co"># cu3 = BuenColors::jdb_palette(&#39;solar_flare&#39;, type = &#39;continuous&#39;) %&gt;%  as.vector</span></span>
+<span id="cb39-223"><a href="#cb39-223" aria-hidden="true" tabindex="-1"></a><span class="co"># cu3 = cu3[seq(from = 0 , to = 1000,length.out = 20)]</span></span>
+<span id="cb39-224"><a href="#cb39-224" aria-hidden="true" tabindex="-1"></a><span class="co"># rownames(mat) = str_replace_all(string = rownames(mat),pattern = &#39;_&#39;,replacement = &#39; &#39;)</span></span>
+<span id="cb39-225"><a href="#cb39-225" aria-hidden="true" tabindex="-1"></a><span class="co"># pdf(file = paste0(figpath,&#39;v2.post.clustered.SLIadjusted.cormat.baseline.pdf&#39;),width = 8.5, height = 8)</span></span>
+<span id="cb39-226"><a href="#cb39-226" aria-hidden="true" tabindex="-1"></a><span class="co"># pheatmap::pheatmap(mat, </span></span>
+<span id="cb39-227"><a href="#cb39-227" aria-hidden="true" tabindex="-1"></a><span class="co">#                    color = cu3, </span></span>
+<span id="cb39-228"><a href="#cb39-228" aria-hidden="true" tabindex="-1"></a><span class="co">#                    #cluster_rows = FALSE, cluster_cols = FALSE, </span></span>
+<span id="cb39-229"><a href="#cb39-229" aria-hidden="true" tabindex="-1"></a><span class="co">#                    border_color = NA,</span></span>
+<span id="cb39-230"><a href="#cb39-230" aria-hidden="true" tabindex="-1"></a><span class="co">#                    treeheight_row = 10, </span></span>
+<span id="cb39-231"><a href="#cb39-231" aria-hidden="true" tabindex="-1"></a><span class="co">#                    treeheight_col = 20,</span></span>
+<span id="cb39-232"><a href="#cb39-232" aria-hidden="true" tabindex="-1"></a><span class="co">#                    breaks = seq(-range, range, length.out = 20),</span></span>
+<span id="cb39-233"><a href="#cb39-233" aria-hidden="true" tabindex="-1"></a><span class="co">#                    fontsize_row = 6,</span></span>
+<span id="cb39-234"><a href="#cb39-234" aria-hidden="true" tabindex="-1"></a><span class="co">#                    fontsize_col = 6)</span></span>
+<span id="cb39-235"><a href="#cb39-235" aria-hidden="true" tabindex="-1"></a><span class="co"># dev.off()</span></span>
+<span id="cb39-236"><a href="#cb39-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-237"><a href="#cb39-237" aria-hidden="true" tabindex="-1"></a><span class="do">### New version </span></span>
+<span id="cb39-238"><a href="#cb39-238" aria-hidden="true" tabindex="-1"></a><span class="fu">pdf</span>(<span class="at">file =</span> <span class="fu">paste0</span>(figpath,<span class="st">&#39;v2.post.clustered.SLIadjusted.cormat.baseline.pdf&#39;</span>),<span class="at">width =</span> <span class="dv">15</span>, <span class="at">height =</span> <span class="dv">11</span>)</span>
+<span id="cb39-239"><a href="#cb39-239" aria-hidden="true" tabindex="-1"></a>corrplot<span class="sc">::</span><span class="fu">corrplot</span>(mat, <span class="at">method=</span><span class="st">&quot;color&quot;</span>, <span class="at">col=</span>cu3,  </span>
+<span id="cb39-240"><a href="#cb39-240" aria-hidden="true" tabindex="-1"></a>         <span class="at">type=</span><span class="st">&quot;upper&quot;</span>, <span class="at">order=</span><span class="st">&quot;hclust&quot;</span>, </span>
+<span id="cb39-241"><a href="#cb39-241" aria-hidden="true" tabindex="-1"></a>         <span class="co">#addCoef.col = &quot;black&quot;, # Add coefficient of correlation</span></span>
+<span id="cb39-242"><a href="#cb39-242" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.col=</span><span class="st">&quot;black&quot;</span>, <span class="at">tl.srt=</span><span class="dv">45</span>, </span>
+<span id="cb39-243"><a href="#cb39-243" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.cex =</span> <span class="fl">0.6</span>, <span class="co">#Text label color and rotation</span></span>
+<span id="cb39-244"><a href="#cb39-244" aria-hidden="true" tabindex="-1"></a>         <span class="co"># Combine with significance</span></span>
+<span id="cb39-245"><a href="#cb39-245" aria-hidden="true" tabindex="-1"></a>         <span class="co">#p.mat = p.mat, sig.level = 0.01, insig = &quot;blank&quot;, </span></span>
+<span id="cb39-246"><a href="#cb39-246" aria-hidden="true" tabindex="-1"></a>         <span class="co"># hide correlation coefficient on the principal diagonal</span></span>
+<span id="cb39-247"><a href="#cb39-247" aria-hidden="true" tabindex="-1"></a>         <span class="at">diag=</span><span class="cn">TRUE</span> </span>
+<span id="cb39-248"><a href="#cb39-248" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb39-249"><a href="#cb39-249" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span>
+<span id="cb39-250"><a href="#cb39-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-251"><a href="#cb39-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-252"><a href="#cb39-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-253"><a href="#cb39-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-254"><a href="#cb39-254" aria-hidden="true" tabindex="-1"></a><span class="co"># R version 4.0.5 Patched (2021-03-31 r80136)</span></span>
+<span id="cb39-255"><a href="#cb39-255" aria-hidden="true" tabindex="-1"></a><span class="co"># attached base packages:</span></span>
+<span id="cb39-256"><a href="#cb39-256" aria-hidden="true" tabindex="-1"></a><span class="co">#   [1] stats     graphics  grDevices utils     datasets  methods   base     </span></span>
+<span id="cb39-257"><a href="#cb39-257" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb39-258"><a href="#cb39-258" aria-hidden="true" tabindex="-1"></a><span class="co"># other attached packages:</span></span>
+<span id="cb39-259"><a href="#cb39-259" aria-hidden="true" tabindex="-1"></a><span class="co">#   [1] scglmmr_0.1.0   magrittr_2.0.1  here_1.0.1      forcats_0.5.1   stringr_1.4.0   dplyr_1.0.4     purrr_0.3.4    </span></span>
+<span id="cb39-260"><a href="#cb39-260" aria-hidden="true" tabindex="-1"></a><span class="co"># [8] readr_1.4.0     tidyr_1.1.2     tibble_3.0.6    ggplot2_3.3.3   tidyverse_1.3.0</span></span>
+<span id="cb39-261"><a href="#cb39-261" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb39-262"><a href="#cb39-262" aria-hidden="true" tabindex="-1"></a><span class="co"># loaded via a namespace (and not attached):</span></span>
+<span id="cb39-263"><a href="#cb39-263" aria-hidden="true" tabindex="-1"></a><span class="co">#   [1] lme4_1.1-26                 tidyselect_1.1.0            RSQLite_2.2.7               AnnotationDbi_1.52.0       </span></span>
+<span id="cb39-264"><a href="#cb39-264" aria-hidden="true" tabindex="-1"></a><span class="co"># [5] htmlwidgets_1.5.3           grid_4.0.5                  BiocParallel_1.24.1         scatterpie_0.1.7           </span></span>
+<span id="cb39-265"><a href="#cb39-265" aria-hidden="true" tabindex="-1"></a><span class="co"># [9] munsell_0.5.0               codetools_0.2-18            statmod_1.4.35              withr_2.4.3                </span></span>
+<span id="cb39-266"><a href="#cb39-266" aria-hidden="true" tabindex="-1"></a><span class="co"># [13] colorspace_2.0-0            GOSemSim_2.16.1             Biobase_2.50.0              knitr_1.39                 </span></span>
+<span id="cb39-267"><a href="#cb39-267" aria-hidden="true" tabindex="-1"></a><span class="co"># [17] rstudioapi_0.13             stats4_4.0.5                ggsignif_0.6.0              DOSE_3.16.0                </span></span>
+<span id="cb39-268"><a href="#cb39-268" aria-hidden="true" tabindex="-1"></a><span class="co"># [21] Rdpack_2.1.1                MatrixGenerics_1.2.1        emmeans_1.5.4               GenomeInfoDbData_1.2.4     </span></span>
+<span id="cb39-269"><a href="#cb39-269" aria-hidden="true" tabindex="-1"></a><span class="co"># [25] polyclip_1.10-0             bit64_4.0.5                 farver_2.0.3                pheatmap_1.0.12            </span></span>
+<span id="cb39-270"><a href="#cb39-270" aria-hidden="true" tabindex="-1"></a><span class="co"># [29] rprojroot_2.0.2             downloader_0.4              coda_0.19-4                 vctrs_0.4.1                </span></span>
+<span id="cb39-271"><a href="#cb39-271" aria-hidden="true" tabindex="-1"></a><span class="co"># [33] generics_0.1.2              TH.data_1.0-10              xfun_0.30                   doParallel_1.0.16          </span></span>
+<span id="cb39-272"><a href="#cb39-272" aria-hidden="true" tabindex="-1"></a><span class="co"># [37] R6_2.5.0                    GenomeInfoDb_1.26.7         graphlayouts_0.7.2          locfit_1.5-9.4             </span></span>
+<span id="cb39-273"><a href="#cb39-273" aria-hidden="true" tabindex="-1"></a><span class="co"># [41] pals_1.7                    bitops_1.0-6                cachem_1.0.4                fgsea_1.16.0               </span></span>
+<span id="cb39-274"><a href="#cb39-274" aria-hidden="true" tabindex="-1"></a><span class="co"># [45] DelayedArray_0.16.3         assertthat_0.2.1            scales_1.1.1                multcomp_1.4-16            </span></span>
+<span id="cb39-275"><a href="#cb39-275" aria-hidden="true" tabindex="-1"></a><span class="co"># [49] ggraph_2.0.5                nnet_7.3-15                 enrichplot_1.10.2           gtable_0.3.0               </span></span>
+<span id="cb39-276"><a href="#cb39-276" aria-hidden="true" tabindex="-1"></a><span class="co"># [53] egg_0.4.5                   tidygraph_1.2.0             sandwich_3.0-0              rlang_1.0.2                </span></span>
+<span id="cb39-277"><a href="#cb39-277" aria-hidden="true" tabindex="-1"></a><span class="co"># [57] slanter_0.2-0               splines_4.0.5               rstatix_0.7.0               dichromat_2.0-0            </span></span>
+<span id="cb39-278"><a href="#cb39-278" aria-hidden="true" tabindex="-1"></a><span class="co"># [61] broom_0.7.5                 checkmate_2.0.0             BiocManager_1.30.10         reshape2_1.4.4             </span></span>
+<span id="cb39-279"><a href="#cb39-279" aria-hidden="true" tabindex="-1"></a><span class="co"># [65] abind_1.4-5                 modelr_0.1.8                backports_1.2.1             qvalue_2.22.0              </span></span>
+<span id="cb39-280"><a href="#cb39-280" aria-hidden="true" tabindex="-1"></a><span class="co"># [69] Hmisc_4.5-0                 clusterProfiler_3.18.1      tools_4.0.5                 ellipsis_0.3.2             </span></span>
+<span id="cb39-281"><a href="#cb39-281" aria-hidden="true" tabindex="-1"></a><span class="co"># [73] gplots_3.1.1                RColorBrewer_1.1-2          BiocGenerics_0.36.1         Rcpp_1.0.6                 </span></span>
+<span id="cb39-282"><a href="#cb39-282" aria-hidden="true" tabindex="-1"></a><span class="co"># [77] plyr_1.8.6                  progress_1.2.2              base64enc_0.1-3             zlibbioc_1.36.0            </span></span>
+<span id="cb39-283"><a href="#cb39-283" aria-hidden="true" tabindex="-1"></a><span class="co"># [81] RCurl_1.98-1.3              prettyunits_1.1.1           ggpubr_0.4.0                rpart_4.1-15               </span></span>
+<span id="cb39-284"><a href="#cb39-284" aria-hidden="true" tabindex="-1"></a><span class="co"># [85] viridis_0.5.1               cowplot_1.1.1               S4Vectors_0.28.1            zoo_1.8-8                  </span></span>
+<span id="cb39-285"><a href="#cb39-285" aria-hidden="true" tabindex="-1"></a><span class="co"># [89] SummarizedExperiment_1.20.0 haven_2.3.1                 ggrepel_0.9.1               cluster_2.1.2              </span></span>
+<span id="cb39-286"><a href="#cb39-286" aria-hidden="true" tabindex="-1"></a><span class="co"># [93] fs_1.5.0                    variancePartition_1.25.6    data.table_1.14.0           DO.db_2.9                  </span></span>
+<span id="cb39-287"><a href="#cb39-287" aria-hidden="true" tabindex="-1"></a><span class="co"># [97] openxlsx_4.2.3              reprex_1.0.0                mvtnorm_1.1-1               packrat_0.7.0              </span></span>
+<span id="cb39-288"><a href="#cb39-288" aria-hidden="true" tabindex="-1"></a><span class="co"># [101] matrixStats_0.58.0          hms_1.0.0                   GSVA_1.38.2                 xtable_1.8-4               </span></span>
+<span id="cb39-289"><a href="#cb39-289" aria-hidden="true" tabindex="-1"></a><span class="co"># [105] pbkrtest_0.5-0.1            RhpcBLASctl_0.21-247.1      XML_3.99-0.6                rio_0.5.16                 </span></span>
+<span id="cb39-290"><a href="#cb39-290" aria-hidden="true" tabindex="-1"></a><span class="co"># [109] jpeg_0.1-8.1                BuenColors_0.5.6            readxl_1.3.1                IRanges_2.24.1             </span></span>
+<span id="cb39-291"><a href="#cb39-291" aria-hidden="true" tabindex="-1"></a><span class="co"># [113] gridExtra_2.3               compiler_4.0.5              maps_3.4.0                  KernSmooth_2.23-18         </span></span>
+<span id="cb39-292"><a href="#cb39-292" aria-hidden="true" tabindex="-1"></a><span class="co"># [117] crayon_1.4.1                shadowtext_0.0.9            minqa_1.2.4                 htmltools_0.5.2            </span></span>
+<span id="cb39-293"><a href="#cb39-293" aria-hidden="true" tabindex="-1"></a><span class="co"># [121] ggfun_0.0.4                 Formula_1.2-4               lubridate_1.7.9.2           DBI_1.1.1                  </span></span>
+<span id="cb39-294"><a href="#cb39-294" aria-hidden="true" tabindex="-1"></a><span class="co"># [125] tweenr_1.0.2                dbplyr_2.1.0                MASS_7.3-53.1               boot_1.3-27                </span></span>
+<span id="cb39-295"><a href="#cb39-295" aria-hidden="true" tabindex="-1"></a><span class="co"># [129] Matrix_1.3-2                car_3.0-10                  cli_3.3.0                   rbibutils_2.0              </span></span>
+<span id="cb39-296"><a href="#cb39-296" aria-hidden="true" tabindex="-1"></a><span class="co"># [133] parallel_4.0.5              igraph_1.2.6                GenomicRanges_1.42.0        pkgconfig_2.0.3            </span></span>
+<span id="cb39-297"><a href="#cb39-297" aria-hidden="true" tabindex="-1"></a><span class="co"># [137] rvcheck_0.1.8               foreign_0.8-81              foreach_1.5.1               xml2_1.3.2                 </span></span>
+<span id="cb39-298"><a href="#cb39-298" aria-hidden="true" tabindex="-1"></a><span class="co"># [141] annotate_1.68.0             XVector_0.30.0              GeneOverlap_1.26.0          estimability_1.3           </span></span>
+<span id="cb39-299"><a href="#cb39-299" aria-hidden="true" tabindex="-1"></a><span class="co"># [145] rvest_0.3.6                 digest_0.6.27               graph_1.68.0                cellranger_1.1.0           </span></span>
+<span id="cb39-300"><a href="#cb39-300" aria-hidden="true" tabindex="-1"></a><span class="co"># [149] fastmatch_1.1-0             htmlTable_2.1.0             edgeR_3.32.1                GSEABase_1.52.1            </span></span>
+<span id="cb39-301"><a href="#cb39-301" aria-hidden="true" tabindex="-1"></a><span class="co"># [153] curl_4.3                    gtools_3.8.2                nloptr_1.2.2.2              nlme_3.1-152               </span></span>
+<span id="cb39-302"><a href="#cb39-302" aria-hidden="true" tabindex="-1"></a><span class="co"># [157] lifecycle_1.0.0             jsonlite_1.7.2              aod_1.3.1                   carData_3.0-4              </span></span>
+<span id="cb39-303"><a href="#cb39-303" aria-hidden="true" tabindex="-1"></a><span class="co"># [161] mapproj_1.2.8               viridisLite_0.3.0           limma_3.46.0                pillar_1.4.7               </span></span>
+<span id="cb39-304"><a href="#cb39-304" aria-hidden="true" tabindex="-1"></a><span class="co"># [165] lattice_0.20-41             fastmap_1.1.0               httr_1.4.2                  survival_3.2-10            </span></span>
+<span id="cb39-305"><a href="#cb39-305" aria-hidden="true" tabindex="-1"></a><span class="co"># [169] GO.db_3.12.1                glue_1.6.2                  zip_2.1.1                   iterators_1.0.13           </span></span>
+<span id="cb39-306"><a href="#cb39-306" aria-hidden="true" tabindex="-1"></a><span class="co"># [173] png_0.1-7                   bit_4.0.4                   ggforce_0.3.3               stringi_1.5.3              </span></span>
+<span id="cb39-307"><a href="#cb39-307" aria-hidden="true" tabindex="-1"></a><span class="co"># [177] blob_1.2.1                  org.Hs.eg.db_3.12.0         latticeExtra_0.6-29         caTools_1.18.1             </span></span>
+<span id="cb39-308"><a href="#cb39-308" aria-hidden="true" tabindex="-1"></a><span class="co"># [181] memoise_2.0.0 </span></span></code></pre></div>
 <p>Visualize results of baseline high responder networks, part 1.<br />
 mid_res/baseline_response/5b_network_construction_and_visualization.r</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># baseline nettwork correlation </span></span>
@@ -8097,49 +8145,66 @@ mid_res/data_write/Final_script_wite_table_fsc.r</p>
 <span id="cb54-108"><a href="#cb54-108" aria-hidden="true" tabindex="-1"></a>                   <span class="at">sep =</span> <span class="st">&#39;</span><span class="sc">\t</span><span class="st">&#39;</span>)</span>
 <span id="cb54-109"><a href="#cb54-109" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb54-110"><a href="#cb54-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-111"><a href="#cb54-111" aria-hidden="true" tabindex="-1"></a><span class="do">### Variance fractions </span></span>
-<span id="cb54-112"><a href="#cb54-112" aria-hidden="true" tabindex="-1"></a>vp <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">&#39;mid_res/variance_partition/generated_data/vp.rds&#39;</span>))</span>
-<span id="cb54-113"><a href="#cb54-113" aria-hidden="true" tabindex="-1"></a>vp <span class="ot">=</span> <span class="fu">as.data.frame</span>(vp) <span class="sc">%&gt;%</span> </span>
-<span id="cb54-114"><a href="#cb54-114" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">&#39;gene&#39;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb54-115"><a href="#cb54-115" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(gene, <span class="fu">everything</span>()) <span class="sc">%&gt;%</span> </span>
-<span id="cb54-116"><a href="#cb54-116" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">&#39;~ age + (1|sex) + (1|subjectid) + (1|celltype) + (1|timepoint) + (1|adjmfc.group) + (1|celltype:timepoint)&#39;</span>)</span>
-<span id="cb54-117"><a href="#cb54-117" aria-hidden="true" tabindex="-1"></a><span class="co"># write</span></span>
-<span id="cb54-118"><a href="#cb54-118" aria-hidden="true" tabindex="-1"></a>data.table<span class="sc">::</span><span class="fu">fwrite</span>(vp,</span>
-<span id="cb54-119"><a href="#cb54-119" aria-hidden="true" tabindex="-1"></a>                   <span class="at">file =</span> <span class="fu">paste0</span>(datapath,<span class="st">&#39;variance.partition.across.celltypes.txt&#39;</span>), </span>
-<span id="cb54-120"><a href="#cb54-120" aria-hidden="true" tabindex="-1"></a>                   <span class="at">sep =</span> <span class="st">&#39;</span><span class="sc">\t</span><span class="st">&#39;</span>)</span>
-<span id="cb54-121"><a href="#cb54-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-122"><a href="#cb54-122" aria-hidden="true" tabindex="-1"></a><span class="co"># per cell type results </span></span>
-<span id="cb54-123"><a href="#cb54-123" aria-hidden="true" tabindex="-1"></a><span class="co">#pb = readRDS(file = here(&#39;mid_res/variance_partition/generated_data/pb_vp.rds&#39;))</span></span>
-<span id="cb54-124"><a href="#cb54-124" aria-hidden="true" tabindex="-1"></a>dl <span class="ot">=</span> <span class="fu">list.files</span>(</span>
-<span id="cb54-125"><a href="#cb54-125" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="fu">here</span>(<span class="st">&#39;mid_res/variance_partition/generated_data/&#39;</span>),</span>
-<span id="cb54-126"><a href="#cb54-126" aria-hidden="true" tabindex="-1"></a>  <span class="at">pattern =</span> <span class="st">&#39;.rds&#39;</span>,</span>
-<span id="cb54-127"><a href="#cb54-127" aria-hidden="true" tabindex="-1"></a>  <span class="at">recursive =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb54-128"><a href="#cb54-128" aria-hidden="true" tabindex="-1"></a>  <span class="at">full.names =</span> <span class="cn">TRUE</span></span>
-<span id="cb54-129"><a href="#cb54-129" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb54-130"><a href="#cb54-130" aria-hidden="true" tabindex="-1"></a>dl <span class="ot">=</span> dl[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">15</span>,<span class="dv">17</span>)] <span class="co"># remove total bulk </span></span>
-<span id="cb54-131"><a href="#cb54-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-132"><a href="#cb54-132" aria-hidden="true" tabindex="-1"></a><span class="co"># get cell type names (file names)</span></span>
-<span id="cb54-133"><a href="#cb54-133" aria-hidden="true" tabindex="-1"></a>cts <span class="ot">=</span> <span class="fu">list.files</span>(</span>
-<span id="cb54-134"><a href="#cb54-134" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="fu">here</span>(<span class="st">&#39;mid_res/variance_partition/generated_data/&#39;</span>),</span>
-<span id="cb54-135"><a href="#cb54-135" aria-hidden="true" tabindex="-1"></a>  <span class="at">pattern =</span> <span class="st">&#39;.rds&#39;</span>,</span>
-<span id="cb54-136"><a href="#cb54-136" aria-hidden="true" tabindex="-1"></a>  <span class="at">recursive =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb54-137"><a href="#cb54-137" aria-hidden="true" tabindex="-1"></a>  <span class="at">full.names =</span> <span class="cn">FALSE</span></span>
-<span id="cb54-138"><a href="#cb54-138" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb54-139"><a href="#cb54-139" aria-hidden="true" tabindex="-1"></a>cts <span class="ot">=</span> cts[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">15</span>,<span class="dv">17</span>)]</span>
-<span id="cb54-140"><a href="#cb54-140" aria-hidden="true" tabindex="-1"></a>cts <span class="ot">=</span> <span class="fu">str_replace_all</span>(<span class="at">string =</span> cts,<span class="at">pattern =</span> <span class="st">&#39;vp.rds&#39;</span>, <span class="at">replacement =</span> <span class="st">&#39;&#39;</span>)</span>
-<span id="cb54-141"><a href="#cb54-141" aria-hidden="true" tabindex="-1"></a><span class="co"># read and format variance partition results </span></span>
-<span id="cb54-142"><a href="#cb54-142" aria-hidden="true" tabindex="-1"></a>vl <span class="ot">=</span> <span class="fu">lapply</span>(dl, readRDS)</span>
-<span id="cb54-143"><a href="#cb54-143" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(vl)) {</span>
-<span id="cb54-144"><a href="#cb54-144" aria-hidden="true" tabindex="-1"></a>  vl[[i]] <span class="ot">=</span> vl[[i]] <span class="sc">%&gt;%</span> </span>
-<span id="cb54-145"><a href="#cb54-145" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb54-146"><a href="#cb54-146" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rownames_to_column</span>(<span class="st">&#39;gene&#39;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb54-147"><a href="#cb54-147" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">model_fit_within_this_celltype =</span> <span class="fu">names</span>(vl)[i]) <span class="sc">%&gt;%</span> </span>
-<span id="cb54-148"><a href="#cb54-148" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">&#39;~ age + (1|sex)  + (1|subjectid) + (1|timepoint) + (1|adjmfc.group) + (1|timepoint:adjmfc.group)&#39;</span>)</span>
-<span id="cb54-149"><a href="#cb54-149" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb54-150"><a href="#cb54-150" aria-hidden="true" tabindex="-1"></a>vp_within <span class="ot">=</span> <span class="fu">do.call</span>(rbind, vl)</span>
-<span id="cb54-151"><a href="#cb54-151" aria-hidden="true" tabindex="-1"></a>data.table<span class="sc">::</span><span class="fu">fwrite</span>(vp_within,</span>
-<span id="cb54-152"><a href="#cb54-152" aria-hidden="true" tabindex="-1"></a>                   <span class="at">file =</span> <span class="fu">paste0</span>(datapath,<span class="st">&#39;variance.partition.within.celltypes.txt&#39;</span>), </span>
-<span id="cb54-153"><a href="#cb54-153" aria-hidden="true" tabindex="-1"></a>                   <span class="at">sep =</span> <span class="st">&#39;</span><span class="sc">\t</span><span class="st">&#39;</span>)</span></code></pre></div>
+<span id="cb54-111"><a href="#cb54-111" aria-hidden="true" tabindex="-1"></a><span class="do">## day 7 signatures </span></span>
+<span id="cb54-112"><a href="#cb54-112" aria-hidden="true" tabindex="-1"></a>sig7 <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="st">&quot;signature_curation/core_d7.rds&quot;</span>)</span>
+<span id="cb54-113"><a href="#cb54-113" aria-hidden="true" tabindex="-1"></a>sig7 <span class="ot">=</span> sig7[<span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">9</span>,<span class="dv">10</span>)]</span>
+<span id="cb54-114"><a href="#cb54-114" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sig7)</span>
+<span id="cb54-115"><a href="#cb54-115" aria-hidden="true" tabindex="-1"></a>d7 <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb54-116"><a href="#cb54-116" aria-hidden="true" tabindex="-1"></a>  <span class="at">pathway =</span> <span class="fu">names</span>(sig7), </span>
+<span id="cb54-117"><a href="#cb54-117" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotation =</span> <span class="fu">c</span>(</span>
+<span id="cb54-118"><a href="#cb54-118" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;Li Blood Transcriptome Modules&#39;</span>, </span>
+<span id="cb54-119"><a href="#cb54-119" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;bulk derived signture (genes with d7 fold change robustly correlated with adjMFC)&#39;</span>, </span>
+<span id="cb54-120"><a href="#cb54-120" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;genes coherently perturbecd day 7 vs baseline (&quot;cluster 4&quot;) Tsang 2014 Fig 3C&#39;</span>)</span>
+<span id="cb54-121"><a href="#cb54-121" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb54-122"><a href="#cb54-122" aria-hidden="true" tabindex="-1"></a>d7<span class="sc">$</span>signature_genes <span class="ot">=</span> sig7</span>
+<span id="cb54-123"><a href="#cb54-123" aria-hidden="true" tabindex="-1"></a>data.table<span class="sc">::</span><span class="fu">fwrite</span>(d7,</span>
+<span id="cb54-124"><a href="#cb54-124" aria-hidden="true" tabindex="-1"></a>                   <span class="at">file =</span> <span class="fu">paste0</span>(datapath,<span class="st">&#39;day7.bulk.signatures.txt&#39;</span>), </span>
+<span id="cb54-125"><a href="#cb54-125" aria-hidden="true" tabindex="-1"></a>                   <span class="at">sep =</span> <span class="st">&#39;</span><span class="sc">\t</span><span class="st">&#39;</span>)</span>
+<span id="cb54-126"><a href="#cb54-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-127"><a href="#cb54-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-128"><a href="#cb54-128" aria-hidden="true" tabindex="-1"></a><span class="do">### Variance fractions </span></span>
+<span id="cb54-129"><a href="#cb54-129" aria-hidden="true" tabindex="-1"></a>vp <span class="ot">=</span> <span class="fu">readRDS</span>(<span class="at">file =</span> <span class="fu">here</span>(<span class="st">&#39;mid_res/variance_partition/generated_data/vp.rds&#39;</span>))</span>
+<span id="cb54-130"><a href="#cb54-130" aria-hidden="true" tabindex="-1"></a>vp <span class="ot">=</span> <span class="fu">as.data.frame</span>(vp) <span class="sc">%&gt;%</span> </span>
+<span id="cb54-131"><a href="#cb54-131" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames_to_column</span>(<span class="st">&#39;gene&#39;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb54-132"><a href="#cb54-132" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(gene, <span class="fu">everything</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb54-133"><a href="#cb54-133" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">&#39;~ age + (1|sex) + (1|subjectid) + (1|celltype) + (1|timepoint) + (1|adjmfc.group) + (1|celltype:timepoint)&#39;</span>)</span>
+<span id="cb54-134"><a href="#cb54-134" aria-hidden="true" tabindex="-1"></a><span class="co"># write</span></span>
+<span id="cb54-135"><a href="#cb54-135" aria-hidden="true" tabindex="-1"></a>data.table<span class="sc">::</span><span class="fu">fwrite</span>(vp,</span>
+<span id="cb54-136"><a href="#cb54-136" aria-hidden="true" tabindex="-1"></a>                   <span class="at">file =</span> <span class="fu">paste0</span>(datapath,<span class="st">&#39;variance.partition.across.celltypes.txt&#39;</span>), </span>
+<span id="cb54-137"><a href="#cb54-137" aria-hidden="true" tabindex="-1"></a>                   <span class="at">sep =</span> <span class="st">&#39;</span><span class="sc">\t</span><span class="st">&#39;</span>)</span>
+<span id="cb54-138"><a href="#cb54-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-139"><a href="#cb54-139" aria-hidden="true" tabindex="-1"></a><span class="co"># per cell type results </span></span>
+<span id="cb54-140"><a href="#cb54-140" aria-hidden="true" tabindex="-1"></a><span class="co">#pb = readRDS(file = here(&#39;mid_res/variance_partition/generated_data/pb_vp.rds&#39;))</span></span>
+<span id="cb54-141"><a href="#cb54-141" aria-hidden="true" tabindex="-1"></a>dl <span class="ot">=</span> <span class="fu">list.files</span>(</span>
+<span id="cb54-142"><a href="#cb54-142" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="fu">here</span>(<span class="st">&#39;mid_res/variance_partition/generated_data/&#39;</span>),</span>
+<span id="cb54-143"><a href="#cb54-143" aria-hidden="true" tabindex="-1"></a>  <span class="at">pattern =</span> <span class="st">&#39;.rds&#39;</span>,</span>
+<span id="cb54-144"><a href="#cb54-144" aria-hidden="true" tabindex="-1"></a>  <span class="at">recursive =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb54-145"><a href="#cb54-145" aria-hidden="true" tabindex="-1"></a>  <span class="at">full.names =</span> <span class="cn">TRUE</span></span>
+<span id="cb54-146"><a href="#cb54-146" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb54-147"><a href="#cb54-147" aria-hidden="true" tabindex="-1"></a>dl <span class="ot">=</span> dl[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">15</span>,<span class="dv">17</span>)] <span class="co"># remove total bulk </span></span>
+<span id="cb54-148"><a href="#cb54-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-149"><a href="#cb54-149" aria-hidden="true" tabindex="-1"></a><span class="co"># get cell type names (file names)</span></span>
+<span id="cb54-150"><a href="#cb54-150" aria-hidden="true" tabindex="-1"></a>cts <span class="ot">=</span> <span class="fu">list.files</span>(</span>
+<span id="cb54-151"><a href="#cb54-151" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="fu">here</span>(<span class="st">&#39;mid_res/variance_partition/generated_data/&#39;</span>),</span>
+<span id="cb54-152"><a href="#cb54-152" aria-hidden="true" tabindex="-1"></a>  <span class="at">pattern =</span> <span class="st">&#39;.rds&#39;</span>,</span>
+<span id="cb54-153"><a href="#cb54-153" aria-hidden="true" tabindex="-1"></a>  <span class="at">recursive =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb54-154"><a href="#cb54-154" aria-hidden="true" tabindex="-1"></a>  <span class="at">full.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb54-155"><a href="#cb54-155" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb54-156"><a href="#cb54-156" aria-hidden="true" tabindex="-1"></a>cts <span class="ot">=</span> cts[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">15</span>,<span class="dv">17</span>)]</span>
+<span id="cb54-157"><a href="#cb54-157" aria-hidden="true" tabindex="-1"></a>cts <span class="ot">=</span> <span class="fu">str_replace_all</span>(<span class="at">string =</span> cts,<span class="at">pattern =</span> <span class="st">&#39;vp.rds&#39;</span>, <span class="at">replacement =</span> <span class="st">&#39;&#39;</span>)</span>
+<span id="cb54-158"><a href="#cb54-158" aria-hidden="true" tabindex="-1"></a><span class="co"># read and format variance partition results </span></span>
+<span id="cb54-159"><a href="#cb54-159" aria-hidden="true" tabindex="-1"></a>vl <span class="ot">=</span> <span class="fu">lapply</span>(dl, readRDS)</span>
+<span id="cb54-160"><a href="#cb54-160" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(vl)) {</span>
+<span id="cb54-161"><a href="#cb54-161" aria-hidden="true" tabindex="-1"></a>  vl[[i]] <span class="ot">=</span> vl[[i]] <span class="sc">%&gt;%</span> </span>
+<span id="cb54-162"><a href="#cb54-162" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb54-163"><a href="#cb54-163" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rownames_to_column</span>(<span class="st">&#39;gene&#39;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb54-164"><a href="#cb54-164" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">model_fit_within_this_celltype =</span> <span class="fu">names</span>(vl)[i]) <span class="sc">%&gt;%</span> </span>
+<span id="cb54-165"><a href="#cb54-165" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">&#39;~ age + (1|sex)  + (1|subjectid) + (1|timepoint) + (1|adjmfc.group) + (1|timepoint:adjmfc.group)&#39;</span>)</span>
+<span id="cb54-166"><a href="#cb54-166" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb54-167"><a href="#cb54-167" aria-hidden="true" tabindex="-1"></a>vp_within <span class="ot">=</span> <span class="fu">do.call</span>(rbind, vl)</span>
+<span id="cb54-168"><a href="#cb54-168" aria-hidden="true" tabindex="-1"></a>data.table<span class="sc">::</span><span class="fu">fwrite</span>(vp_within,</span>
+<span id="cb54-169"><a href="#cb54-169" aria-hidden="true" tabindex="-1"></a>                   <span class="at">file =</span> <span class="fu">paste0</span>(datapath,<span class="st">&#39;variance.partition.within.celltypes.txt&#39;</span>), </span>
+<span id="cb54-170"><a href="#cb54-170" aria-hidden="true" tabindex="-1"></a>                   <span class="at">sep =</span> <span class="st">&#39;</span><span class="sc">\t</span><span class="st">&#39;</span>)</span></code></pre></div>
 </div>
 <div id="low-level-bioinformatic-processing-to-generate-starting-data" class="section level3">
 <h3>Low-level bioinformatic processing to generate starting data
