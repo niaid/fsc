@@ -1,4 +1,4 @@
-Multilevel integration of human and single-cell variations reveals high responders to an unadjuvanted vaccine are naturally adjuvanted at baseline
+Integrating population and single-cell variations in vaccine responses identifies a naturally adjuvanted human immune setpoint
 ================
 
 Documentation & code to reproduce analysis and figures here: https://niaid.github.io/fsc/
